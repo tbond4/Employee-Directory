@@ -10,15 +10,24 @@ state= {
   users:[],
   filterSearch:""
 }
-
+componentDidMount(){
+  this.searchUsers(20);
+}
 handleInputChange=event=>{
   const {name, value}=event.target;
 
   this.setState({[name]:value})
 }
-
-componentDidMount(){
-  this.searchUsers(20);
+handleCheckbox=event=>{
+console.log( this.state.users)
+  let sortedUsers = this.state.users.sort(function(a, b) {
+    if(a.name.first.toLowerCase() < b.name.first.toLowerCase()) return -1;
+    if(a.name.first.toLowerCase() > b.name.first.toLowerCase()) return 1;
+    return 0;
+   })
+  
+  this.setState({users: sortedUsers})
+  
 }
 
 searchUsers= num => {
@@ -31,7 +40,7 @@ searchUsers= num => {
   return (
     <div className="App">
      <Header/>
-     <Filter handleInputChange={this.handleInputChange}/>
+     <Filter handleInputChange={this.handleInputChange} handleCheckbox={this.handleCheckbox}/>
      <Body users={this.state.users} filterSearch={this.state.filterSearch}/>
     </div>
   )}
